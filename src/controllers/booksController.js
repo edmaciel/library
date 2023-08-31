@@ -28,7 +28,7 @@ class BookController {
         try {
             let livro = new books(req.body)
             const booksResponse = await books.create(livro)
-            res.status(200).json(booksResponse)
+            res.status(201).json(booksResponse)
         } catch (err) {
             console.log(err)
             res.status(500).send('Error save book')
@@ -48,9 +48,9 @@ class BookController {
 
     static updateBook = async (req, res) => {
         try {
-            const _id = req.params.id
-            const booksResponse = await books.updateOne(_id)
-            res.status(200).json(booksResponse)
+            const id = req.params.id
+            await books.findByIdAndUpdate(id, {$set: req.body})
+            res.status(200).send('Successfully updated book')
         } catch (err) {
             console.log(err)
             res.status(500).send('Error update book')
